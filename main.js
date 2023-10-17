@@ -1,5 +1,6 @@
 img = "";
 modelStatus = "";
+objects = [];
 
 function setup()
 {
@@ -22,7 +23,8 @@ function gotResults(error, results)
     {
         console.error(error);
     }
-    console.log(results)
+    console.log(results);
+    objects = results;
 }
 
 
@@ -33,16 +35,23 @@ function preload()
 
 function draw()
 {
-    image(img, 0, 0, 640, 420);
-    fill(255, 0, 0);
-    text("dog", 45, 75);
-    noFill();
-    stroke(255, 0, 0);
-    rect(30, 60, 450, 350);
+     image(img, 0, 0, 640, 420);
 
-    fill(0, 255, 0);
-    text("cat", 305, 80);
-    noFill();
-    stroke(0, 255, 0);
-    rect(300, 65, 270, 334);
+     if(modelStatus != "")
+     {
+        for (i = 0; i < objects.length; i++)
+        {
+            document.getElementById("status").innerHTML = "Status: Objeto Detectado";
+
+            fill("#FF0000");
+            percent = floor(objects[i].confidence * 100);
+            text(objects[i].label + " " + percent + "%", objects[i].x + 15, objects[i].y + 15);
+            noFill();
+            stroke("#FF0000");
+            rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+        }
+     }
+
+   
+    
 }
